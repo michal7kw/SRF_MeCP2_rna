@@ -14,6 +14,11 @@ COUNTS_DIR = "90-1115332406/04_counts"
 DESEQ_DIR = "90-1115332406/05_deseq2"
 RESULTS_DIR = "90-1115332406/06_results"
 
+# New output directories
+PATHWAY_DIR = f"{RESULTS_DIR}/pathway_analysis"
+ENHANCED_VIZ_DIR = f"{RESULTS_DIR}/enhanced_visualization"
+QC_PLOTS_DIR = f"{RESULTS_DIR}/qc"
+
 # Reference genome info
 GENOME_DIR = "reference"
 GENOME_FASTA = "reference/GRCh38.primary_assembly.genome.fa"
@@ -24,16 +29,26 @@ configfile: "config/config.yaml"
 
 rule all:
     input:
-        # STAR index
+        # Core analysis outputs
         f"{GENOME_DIR}/star_index",
-        # QC reports
         expand(f"{QC_DIR}/{{sample}}_R{{read}}_001_fastqc.html", sample=SAMPLES, read=[1,2]),
         expand(f"{QC_DIR}/{{sample}}_R{{read}}_001_fastqc.zip", sample=SAMPLES, read=[1,2]),
-        # Final counts
         f"{COUNTS_DIR}/all_samples_counts.txt",
-        # DESeq2 results
+        # DESeq2 core outputs
         f"{DESEQ_DIR}/NPC_differential_expression.csv",
-        f"{DESEQ_DIR}/Neuron_differential_expression.csv"
+        f"{DESEQ_DIR}/Neuron_differential_expression.csv",
+        f"{RESULTS_DIR}/MA_plots.pdf",
+        f"{RESULTS_DIR}/PCA_plot.pdf",
+        f"{QC_PLOTS_DIR}/sample_correlation_heatmap.pdf",
+        f"{QC_PLOTS_DIR}/count_distributions.pdf",
+        f"{QC_PLOTS_DIR}/detected_genes.pdf",
+        f"{RESULTS_DIR}/session_info.txt",
+        # Advanced analysis outputs
+        expand(f"{PATHWAY_DIR}/{{celltype}}_pathway_analysis.pdf", celltype=["NPC", "Neuron"]),
+        expand(f"{PATHWAY_DIR}/{{celltype}}_GO_enrichment.csv", celltype=["NPC", "Neuron"]),
+        expand(f"{PATHWAY_DIR}/{{celltype}}_GSEA_results.csv", celltype=["NPC", "Neuron"]),
+        expand(f"{ENHANCED_VIZ_DIR}/{{celltype}}_volcano_plot.pdf", celltype=["NPC", "Neuron"]),
+        expand(f"{ENHANCED_VIZ_DIR}/{{celltype}}_top_DEGs_heatmap.pdf", celltype=["NPC", "Neuron"])
 
 rule fastqc:
     input:
@@ -159,15 +174,42 @@ rule featureCounts:
             {input.bams}
         """
 
-rule deseq2_analysis:
+rule deseq2_core:
     input:
         counts = f"{COUNTS_DIR}/all_samples_counts.txt"
     output:
+        # Core outputs
         npc_de = f"{DESEQ_DIR}/NPC_differential_expression.csv",
         neuron_de = f"{DESEQ_DIR}/Neuron_differential_expression.csv",
-        ma_plots = f"{RESULTS_DIR}/MA_plots.pdf"
+        ma_plots = f"{RESULTS_DIR}/MA_plots.pdf",
+        pca_plot = f"{RESULTS_DIR}/PCA_plot.pdf",
+        # QC outputs
+        sample_corr = f"{QC_PLOTS_DIR}/sample_correlation_heatmap.pdf",
+        count_dist = f"{QC_PLOTS_DIR}/count_distributions.pdf",
+        detected_genes = f"{QC_PLOTS_DIR}/detected_genes.pdf",
+        # Session info
+        session_info = f"{RESULTS_DIR}/session_info.txt"
     resources:
         mem_mb=32000,
         runtime=60
     script:
-        "scripts/run_deseq2.R" 
+        "scripts/run_deseq2_core.R"
+
+rule advanced_analysis:
+    input:
+        npc_de = f"{DESEQ_DIR}/NPC_differential_expression.csv",
+        neuron_de = f"{DESEQ_DIR}/Neuron_differential_expression.csv",
+        counts = f"{COUNTS_DIR}/all_samples_counts.txt"
+    output:
+        # Pathway analysis outputs
+        pathway_plots = expand(f"{PATHWAY_DIR}/{{celltype}}_pathway_analysis.pdf", celltype=["NPC", "Neuron"]),
+        go_results = expand(f"{PATHWAY_DIR}/{{celltype}}_GO_enrichment.csv", celltype=["NPC", "Neuron"]),
+        gsea_results = expand(f"{PATHWAY_DIR}/{{celltype}}_GSEA_results.csv", celltype=["NPC", "Neuron"]),
+        # Enhanced visualization outputs
+        volcano_plots = expand(f"{ENHANCED_VIZ_DIR}/{{celltype}}_volcano_plot.pdf", celltype=["NPC", "Neuron"]),
+        deg_heatmaps = expand(f"{ENHANCED_VIZ_DIR}/{{celltype}}_top_DEGs_heatmap.pdf", celltype=["NPC", "Neuron"])
+    resources:
+        mem_mb=32000,
+        runtime=60
+    script:
+        "scripts/run_advanced_analysis.R" 

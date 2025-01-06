@@ -133,4 +133,48 @@ dev.off()
 print("Summary of NPC results:")
 summary(res_npc)
 print("\nSummary of Neuron results:")
-summary(res_neuron) 
+summary(res_neuron)
+
+# Load additional analysis scripts
+source("scripts/qc_visualization.R")
+source("scripts/pathway_analysis.R")
+source("scripts/enhanced_visualization.R")
+
+# Create results directories
+results_dir <- "90-1115332406/06_results"
+qc_dir <- file.path(results_dir, "qc")
+pathway_dir <- file.path(results_dir, "pathway_analysis")
+viz_dir <- file.path(results_dir, "enhanced_visualization")
+
+# Run QC visualization
+create_qc_plots(dds, qc_dir)
+
+# Get normalized counts for visualization
+normalized_counts <- counts(dds, normalized=TRUE)
+
+# Process each cell type
+for (cell_type in c("NPC", "Neuron")) {
+    # Get results
+    results_df <- get_de_results(dds, cell_type, 
+                                file.path("90-1115332406/05_deseq2", 
+                                        paste0(cell_type, "_differential_expression.csv")))
+    
+    # Perform pathway analysis
+    perform_pathway_analysis(results_df, cell_type, pathway_dir)
+    
+    # Create enhanced visualizations
+    create_enhanced_plots(results_df, normalized_counts, 
+                         sample_info, cell_type, viz_dir)
+}
+
+# Add sample distance analysis
+vst_counts <- vst(dds, blind=FALSE)
+
+# PCA plot
+pdf(file.path(results_dir, "PCA_plot.pdf"))
+plotPCA(vst_counts, intgroup=c("cell_type", "condition"))
+dev.off()
+
+# Save session info for reproducibility
+writeLines(capture.output(sessionInfo()), 
+           file.path(results_dir, "session_info.txt")) 

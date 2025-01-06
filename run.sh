@@ -19,8 +19,25 @@ mkdir -p logs
 WORKING_DIR="/beegfs/scratch/ric.broccoli/kubacki.michal/SRF_MeCP2_rna"
 cd $WORKING_DIR || exit 1
 
+# # Install required R packages
+# Rscript -e '
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install(c(
+#     "DESeq2",
+#     "clusterProfiler",
+#     "org.Hs.eg.db",
+#     "DOSE",
+#     "enrichplot",
+#     "GO.db",
+#     "EnhancedVolcano",
+#     "ComplexHeatmap"
+# ))
+# install.packages(c("tidyverse", "pheatmap"))
+# '
+
 # Download reference files if needed
-bash scripts/get_reference.sh
+# bash scripts/get_reference.sh
 
 snakemake --unlock
 
