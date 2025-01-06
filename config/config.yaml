@@ -1,0 +1,6 @@
+modules:
+  star: "STAR/2.7.10b"
+  fastqc: "FastQC/0.12.1"
+  trimmomatic: "Trimmomatic/0.39"
+  subread: "Subread/2.0.6"
+  r: "R/4.3.3" 

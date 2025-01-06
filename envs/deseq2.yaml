@@ -1,0 +1,11 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - r-base=4.3
+  - r-essentials
+  - bioconductor-deseq2
+  - r-tidyverse
+  - bioconductor-genomicranges
+  - bioconductor-summarizedexperiment 
