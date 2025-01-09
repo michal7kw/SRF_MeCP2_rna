@@ -1,0 +1,35 @@
+Original column names:
+Chr, Start, End, Strand, Length, X90.1115332406.03_alignment.hPG1.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hPG2.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hPG3.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hPM1.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hPM2.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hPM3.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hNG1.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hNG2.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hNG3.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hNM1.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hNM2.Aligned.sortedByCoord.out.bam, X90.1115332406.03_alignment.hNM3.Aligned.sortedByCoord.out.bam
+
+Verifying sample grouping:
+
+Sample counts by group:
+All sample groups have correct number of replicates
+
+=== Analyzing NPC ===
+
+Differential Expression Counts:
+
+ Not Significant     Upregulated 
+           60648               1 
+
+=== Analyzing Neuron ===
+
+Differential Expression Counts:
+
+   Downregulated Not Significant     Upregulated 
+              34           60597              18 
+
+=== Analyzing NPC ===
+
+Differential Expression Counts:
+
+ Not Significant     Upregulated 
+           60648               1 
+
+=== Analyzing Neuron ===
+
+Differential Expression Counts:
+
+   Downregulated Not Significant     Upregulated 
+              34           60597              18 

@@ -1,0 +1,56 @@
+R version 4.3.3 (2024-02-29)
+Platform: x86_64-conda-linux-gnu (64-bit)
+Running under: Rocky Linux 8.10 (Green Obsidian)
+
+Matrix products: default
+BLAS/LAPACK: /beegfs/scratch/ric.broccoli/kubacki.michal/conda_envs/snakemake/lib/libopenblasp-r0.3.28.so;  LAPACK version 3.12.0
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+time zone: Europe/Vatican
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats4    stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] ggrepel_0.9.6               org.Hs.eg.db_3.18.0        
+ [3] AnnotationDbi_1.64.1        pheatmap_1.0.12            
+ [5] lubridate_1.9.4             forcats_1.0.0              
+ [7] stringr_1.5.1               dplyr_1.1.4                
+ [9] purrr_1.0.2                 readr_2.1.5                
+[11] tidyr_1.3.1                 tibble_3.2.1               
+[13] ggplot2_3.5.1               tidyverse_2.0.0            
+[15] DESeq2_1.42.1               SummarizedExperiment_1.32.0
+[17] Biobase_2.62.0              MatrixGenerics_1.14.0      
+[19] matrixStats_1.4.1           GenomicRanges_1.54.1       
+[21] GenomeInfoDb_1.38.8         IRanges_2.36.0             
+[23] S4Vectors_0.40.2            BiocGenerics_0.48.1        
+
+loaded via a namespace (and not attached):
+ [1] KEGGREST_1.42.0         gtable_0.3.6            lattice_0.22-6         
+ [4] tzdb_0.4.0              vctrs_0.6.5             tools_4.3.3            
+ [7] bitops_1.0-9            generics_0.1.3          parallel_4.3.3         
+[10] RSQLite_2.3.9           fansi_1.0.6             blob_1.2.4             
+[13] pkgconfig_2.0.3         Matrix_1.6-5            RColorBrewer_1.1-3     
+[16] lifecycle_1.0.4         GenomeInfoDbData_1.2.11 farver_2.1.2           
+[19] compiler_4.3.3          Biostrings_2.70.1       munsell_0.5.1          
+[22] codetools_0.2-20        RCurl_1.98-1.16         pillar_1.9.0           
+[25] crayon_1.5.3            BiocParallel_1.36.0     cachem_1.1.0           
+[28] DelayedArray_0.28.0     abind_1.4-5             tidyselect_1.2.1       
+[31] locfit_1.5-9.10         stringi_1.8.4           labeling_0.4.3         
+[34] fastmap_1.2.0           grid_4.3.3              colorspace_2.1-1       
+[37] cli_3.6.3               SparseArray_1.2.2       magrittr_2.0.3         
+[40] S4Arrays_1.2.0          utf8_1.2.4              withr_3.0.2            
+[43] scales_1.3.0            bit64_4.5.2             timechange_0.3.0       
+[46] httr_1.4.7              XVector_0.42.0          bit_4.5.0.1            
+[49] png_0.1-8               hms_1.1.3               memoise_2.0.1          
+[52] rlang_1.1.4             Rcpp_1.0.13-1           glue_1.8.0             
+[55] DBI_1.2.3               R6_2.5.1                zlibbioc_1.48.0        
