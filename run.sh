@@ -19,27 +19,7 @@ mkdir -p logs
 WORKING_DIR="/beegfs/scratch/ric.broccoli/kubacki.michal/SRF_MeCP2_rna"
 cd $WORKING_DIR || exit 1
 
-# # Install required R packages
-# Rscript -e '
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#     install.packages("BiocManager")
-# BiocManager::install(c(
-#     "DESeq2",
-#     "clusterProfiler",
-#     "org.Hs.eg.db",
-#     "DOSE",
-#     "enrichplot",
-#     "GO.db",
-#     "EnhancedVolcano",
-#     "ComplexHeatmap"
-# ))
-# install.packages(c("tidyverse", "pheatmap"))
-# '
-
-# Download reference files if needed
-# bash scripts/get_reference.sh
-
-snakemake --unlock
+# snakemake --unlock
 
 # Run snakemake
 snakemake \
@@ -49,9 +29,12 @@ snakemake \
     --latency-wait 120 \
     --restart-times 3 \
     --executor slurm \
+    --verbose \
+    --printshellcmds \
     --default-resources \
         slurm_account="kubacki.michal" \
         "slurm_partition='workq'" \
         mem_mb=32000 \
         runtime=720 \
-    --jobs 12
+    --jobs 12 \
+    2>&1 | tee logs/snakemake_full.log

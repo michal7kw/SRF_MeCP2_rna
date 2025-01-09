@@ -6,10 +6,10 @@ create_enhanced_plots <- function(deg_results, normalized_counts,
     # Create output directory
     dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
     
-    # Volcano plot
+    # Volcano plot - now using gene symbols for labels
     pdf(file.path(output_dir, paste0(cell_type, "_volcano_plot.pdf")))
     EnhancedVolcano(deg_results,
-                    lab = deg_results$gene_id,
+                    lab = deg_results$gene_symbol,
                     x = 'log2FoldChange',
                     y = 'padj',
                     title = paste(cell_type, "Differential Expression"),
@@ -22,10 +22,11 @@ create_enhanced_plots <- function(deg_results, normalized_counts,
     # Top DEGs heatmap
     top_genes <- deg_results %>%
         filter(padj < 0.05) %>%
-        top_n(50, abs(log2FoldChange)) %>%
-        pull(gene_id)
+        top_n(50, abs(log2FoldChange))
     
-    counts_matrix <- normalized_counts[top_genes, ]
+    counts_matrix <- normalized_counts[top_genes$gene_id, ]
+    # Use gene symbols for row names
+    rownames(counts_matrix) <- top_genes$gene_symbol
     
     pdf(file.path(output_dir, paste0(cell_type, "_top_DEGs_heatmap.pdf")))
     Heatmap(scale(t(scale(t(counts_matrix)))),

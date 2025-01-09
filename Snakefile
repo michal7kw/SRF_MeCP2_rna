@@ -37,18 +37,18 @@ rule all:
         # DESeq2 core outputs
         f"{DESEQ_DIR}/NPC_differential_expression.csv",
         f"{DESEQ_DIR}/Neuron_differential_expression.csv",
+        f"{DESEQ_DIR}/NPC_differential_expression_upregulated.csv",
+        f"{DESEQ_DIR}/NPC_differential_expression_downregulated.csv",
+        f"{DESEQ_DIR}/Neuron_differential_expression_upregulated.csv",
+        f"{DESEQ_DIR}/Neuron_differential_expression_downregulated.csv",
         f"{RESULTS_DIR}/MA_plots.pdf",
         f"{RESULTS_DIR}/PCA_plot.pdf",
+        f"{RESULTS_DIR}/NPC_volcano_plot.pdf",
+        f"{RESULTS_DIR}/Neuron_volcano_plot.pdf",
         f"{QC_PLOTS_DIR}/sample_correlation_heatmap.pdf",
         f"{QC_PLOTS_DIR}/count_distributions.pdf",
         f"{QC_PLOTS_DIR}/detected_genes.pdf",
-        f"{RESULTS_DIR}/session_info.txt",
-        # Advanced analysis outputs
-        expand(f"{PATHWAY_DIR}/{{celltype}}_pathway_analysis.pdf", celltype=["NPC", "Neuron"]),
-        expand(f"{PATHWAY_DIR}/{{celltype}}_GO_enrichment.csv", celltype=["NPC", "Neuron"]),
-        expand(f"{PATHWAY_DIR}/{{celltype}}_GSEA_results.csv", celltype=["NPC", "Neuron"]),
-        expand(f"{ENHANCED_VIZ_DIR}/{{celltype}}_volcano_plot.pdf", celltype=["NPC", "Neuron"]),
-        expand(f"{ENHANCED_VIZ_DIR}/{{celltype}}_top_DEGs_heatmap.pdf", celltype=["NPC", "Neuron"])
+        f"{RESULTS_DIR}/session_info.txt"
 
 rule fastqc:
     input:
@@ -181,19 +181,30 @@ rule deseq2_core:
         # Core outputs
         npc_de = f"{DESEQ_DIR}/NPC_differential_expression.csv",
         neuron_de = f"{DESEQ_DIR}/Neuron_differential_expression.csv",
+        npc_de_up = f"{DESEQ_DIR}/NPC_differential_expression_upregulated.csv",
+        npc_de_down = f"{DESEQ_DIR}/NPC_differential_expression_downregulated.csv",
+        neuron_de_up = f"{DESEQ_DIR}/Neuron_differential_expression_upregulated.csv",
+        neuron_de_down = f"{DESEQ_DIR}/Neuron_differential_expression_downregulated.csv",
         ma_plots = f"{RESULTS_DIR}/MA_plots.pdf",
         pca_plot = f"{RESULTS_DIR}/PCA_plot.pdf",
+        npc_volcano = f"{RESULTS_DIR}/NPC_volcano_plot.pdf",
+        neuron_volcano = f"{RESULTS_DIR}/Neuron_volcano_plot.pdf",
         # QC outputs
         sample_corr = f"{QC_PLOTS_DIR}/sample_correlation_heatmap.pdf",
         count_dist = f"{QC_PLOTS_DIR}/count_distributions.pdf",
         detected_genes = f"{QC_PLOTS_DIR}/detected_genes.pdf",
-        # Session info
-        session_info = f"{RESULTS_DIR}/session_info.txt"
+        # Session info and logs
+        session_info = f"{RESULTS_DIR}/session_info.txt",
+        analysis_log = f"{RESULTS_DIR}/deseq2_analysis.log"
+    log:
+        "logs/deseq2_core.log"
     resources:
         mem_mb=32000,
         runtime=60
-    script:
-        "scripts/run_deseq2_core.R"
+    shell:
+        """
+        Rscript --vanilla scripts/run_deseq2_core.R 2>&1 | tee {log}
+        """
 
 rule advanced_analysis:
     input:
