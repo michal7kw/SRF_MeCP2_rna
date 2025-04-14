@@ -21,11 +21,11 @@ read_deg_results <- function(file_path) {
 }
 
 # Read results
-npc_results <- read_deg_results("90-1115332406/05_deseq2/NPC_differential_expression.csv")
-neuron_results <- read_deg_results("90-1115332406/05_deseq2/Neuron_differential_expression.csv")
+npc_results <- read_deg_results("../05_deseq2/NPC_differential_expression.csv")
+neuron_results <- read_deg_results("../05_deseq2/Neuron_differential_expression.csv")
 
 # Read counts and sample info
-counts_data <- read.table("90-1115332406/04_counts/all_samples_counts.txt", 
+counts_data <- read.table("../04_counts/all_samples_counts.txt", 
                          header=TRUE, row.names=1, skip=1)
 count_cols <- grep("X90\\.1115332406\\.03_alignment\\.h[NP][GM][123]\\.Aligned\\.sortedByCoord\\.out\\.bam$", 
                   colnames(counts_data), value=TRUE)
@@ -55,8 +55,8 @@ dds <- estimateSizeFactors(dds)
 normalized_counts <- counts(dds, normalized=TRUE)
 
 # Create output directories
-pathway_dir <- "90-1115332406/06_results/pathway_analysis"
-viz_dir <- "90-1115332406/06_results/enhanced_visualization"
+pathway_dir <- "../06_results/pathway_analysis"
+viz_dir <- "../06_results/enhanced_visualization"
 dir.create(pathway_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(viz_dir, recursive = TRUE, showWarnings = FALSE)
 
